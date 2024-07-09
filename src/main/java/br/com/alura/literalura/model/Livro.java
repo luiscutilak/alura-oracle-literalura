@@ -2,19 +2,34 @@ package br.com.alura.literalura.model;
 
 import jakarta.persistence.*;
 
+import java.util.stream.Collectors;
+
 @Entity
 @Table(name = "Livros")
 public class Livro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String titulo;
+    @ManyToOne
     private String autor;
+    @Enumerated(EnumType.STRING)
     private String idioma;
     private Double numeroDownloads;
-    private Integer anoNascimentoAutor;
-    private Integer anoFalecimentoAutor;
+
+
+    public Livro(){
+    }
+    public Livro(DadosLivro livro) {
+        this.titulo = livro.titulo();
+        this.autor = livro.autores();
+        this.idioma = Idioma.fromString(livro.idioma().stream()
+                .limit(1).collect(Collectors.joining()));
+        this.numeroDownloads = livro.numeroDownloads();
+
+
+    }
+
+
 
     public Long getId() {
         return id;
@@ -76,13 +91,12 @@ public class Livro {
     public String toString() {
         return
                 "-------- LIVRO -------- " +
-                "id = " + id +
-                ", Titulo = " + titulo + '\'' +
-                ", Autor = " + autor + '\'' +
-                ", Idioma = " + idioma + '\'' +
-                ", Numero de Downloads = " + numeroDownloads +
-                ", Ano de Nascimento Autor = " + anoNascimentoAutor +
-                ", Ano de Falecimento Autor=" + anoFalecimentoAutor +
-                "-------------------------";
+                        ", Titulo = " + titulo + '\'' +
+                        ", Autor = " + autor + '\'' +
+                        ", Idioma = " + idioma + '\'' +
+                        ", Numero de Downloads = " + numeroDownloads +
+                        ", Ano de Nascimento Autor = " + anoNascimentoAutor +
+                        ", Ano de Falecimento Autor=" + anoFalecimentoAutor +
+                        "-------------------------";
     }
 }
