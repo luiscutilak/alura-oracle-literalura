@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "Livros")
+@Table(name = "livros")
 public class Livro {
+    @Id
     private Long id;
     @Column(unique = true)
     private String titulo;
     @ManyToOne
-    private String autor;
+    private Autor autor;
     @Enumerated(EnumType.STRING)
     private Linguagem linguagem;
     private Double numeroDownloads;
@@ -58,11 +59,11 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public String getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(Autor autor) {
         this.autor = autor;
     }
 

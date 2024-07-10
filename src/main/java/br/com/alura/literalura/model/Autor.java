@@ -3,7 +3,8 @@ package br.com.alura.literalura.model;
 import jakarta.persistence.*;
 
 import java.util.List;
-
+@Entity
+@Table(name = "autores", schema = "public")
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +62,7 @@ public class Autor {
     }
 
     public void setLivros(List<Livro> livros) {
-        livros.forEach(l -> l.setAutor(String.valueOf(this)));
+        livros.forEach(l -> l.setAutor(this));
         this.livros = livros;
     }
 
