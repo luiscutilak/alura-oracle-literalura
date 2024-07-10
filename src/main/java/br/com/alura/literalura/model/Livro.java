@@ -13,50 +13,23 @@ public class Livro {
     @ManyToOne
     private String autor;
     @Enumerated(EnumType.STRING)
-    private String idioma;
+    private Linguagem linguagem;
     private Double numeroDownloads;
-
 
     public Livro(){
     }
+
     public Livro(DadosLivro livro) {
+        this.id = livro.id();
         this.titulo = livro.titulo();
-        this.autor = livro.autores();
-        this.idioma = Idioma.fromString(livro.idioma().stream()
+        this.linguagem = Linguagem.fromString(livro.idioma().stream()
                 .limit(1).collect(Collectors.joining()));
         this.numeroDownloads = livro.numeroDownloads();
 
 
     }
-
-
-
     public Long getId() {
         return id;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public Integer getAnoNascimentoAutor() {
-        return anoNascimentoAutor;
-    }
-
-    public void setAnoNascimentoAutor(Integer anoNascimentoAutor) {
-        this.anoNascimentoAutor = anoNascimentoAutor;
-    }
-
-    public Integer getAnoFalecimentoAutor() {
-        return anoFalecimentoAutor;
-    }
-
-    public void setAnoFalecimentoAutor(Integer anoFalecimentoAutor) {
-        this.anoFalecimentoAutor = anoFalecimentoAutor;
     }
 
     public void setId(Long id) {
@@ -70,15 +43,13 @@ public class Livro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
-    public String getIdioma() {
-        return idioma;
+    public Linguagem getLinguagem() {
+        return linguagem;
     }
 
-    public void setIdioma(String idioma) {
-        this.idioma = idioma;
+    public void setLinguagem(Linguagem linguagem) {
+        this.linguagem = linguagem;
     }
-
     public Double getNumeroDownloads() {
         return numeroDownloads;
     }
@@ -87,16 +58,22 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
     @Override
     public String toString() {
         return
-                "-------- LIVRO -------- " +
+                "id = " + id +
                         ", Titulo = " + titulo + '\'' +
-                        ", Autor = " + autor + '\'' +
-                        ", Idioma = " + idioma + '\'' +
+                        ", Idioma = " + linguagem + '\'' +
                         ", Numero de Downloads = " + numeroDownloads +
-                        ", Ano de Nascimento Autor = " + anoNascimentoAutor +
-                        ", Ano de Falecimento Autor=" + anoFalecimentoAutor +
-                        "-------------------------";
+                        ", Autor = " + autor + '\'';
+
     }
 }

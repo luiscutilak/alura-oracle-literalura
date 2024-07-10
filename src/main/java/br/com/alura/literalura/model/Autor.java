@@ -1,9 +1,6 @@
 package br.com.alura.literalura.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -15,6 +12,7 @@ public class Autor {
     private String nomeAutor;
     private Integer anoNascimentoAutor;
     private Integer anoFalecimentoAutor;
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Livro> livros;
 
     public Autor(){
@@ -63,6 +61,18 @@ public class Autor {
     }
 
     public void setLivros(List<Livro> livros) {
-        livros.forEach(1 -> 1.setA); = livros;
+        livros.forEach(l -> l.setAutor(String.valueOf(this)));
+        this.livros = livros;
+    }
+
+    @Override
+    public String toString() {
+        return "Autor" + nomeAutor +
+                "id= " + id +
+                ", nomeAutor= '" + nomeAutor + '\'' +
+                ", anoNascimentoAutor= " + anoNascimentoAutor +
+                ", anoFalecimentoAutor= " + anoFalecimentoAutor +
+                ", livros= " + livros;
+
     }
 }
