@@ -1,9 +1,6 @@
 package br.com.alura.literalura.principal;
 
-import br.com.alura.literalura.model.Autor;
-import br.com.alura.literalura.model.DadosInfo;
-import br.com.alura.literalura.model.DadosLivro;
-import br.com.alura.literalura.model.Livro;
+import br.com.alura.literalura.model.*;
 import br.com.alura.literalura.repository.IAutorRepository;
 import br.com.alura.literalura.service.ConsumoApi;
 import br.com.alura.literalura.service.ConverteDados;
@@ -69,6 +66,8 @@ public class Principal {
                         case 4:
                             buscarAutoresVivosPorData();
                             break;
+                        case 5:
+                            buscarLivrosPorIdioma();
                         default:
                             System.out.println("Opção inválida\n");
                     }
@@ -79,6 +78,39 @@ public class Principal {
 
             }
 
+        }
+    }
+
+    private void buscarLivrosPorIdioma() {
+        var menu = """
+                Digite uma das opções abaixo para pesquisar seu Livro por Idioma:
+                
+                pt - Português
+                en - Inglês
+                es - Espanhol
+                fr - Francês
+                """;
+        System.out.println(menu);
+        var idioma = sc.nextLine();
+        if(idioma.equalsIgnoreCase("pt") || idioma.equalsIgnoreCase("en") ||
+                idioma.equalsIgnoreCase("es") || idioma.equalsIgnoreCase("fr")){
+            Linguagem linguagem = Linguagem.fromString(idioma);
+            List<Livro> livros = repositorio.buscarLivrosPorIdioma(linguagem);
+            if(livros.isEmpty()){
+                System.out.println("Não disponibilizamos livros nesse idioma.");
+            } else{
+                System.out.println();
+                livros.forEach(l -> System.out.println(
+                        "----- LIVRO -----" +
+                                "\nTitulo: " + l.getTitulo() +
+                                "\nAutor: " + l.getAutor().getNomeAutor() +
+                                "\nIdioma: " + l.getLinguagem().getIdioma() +
+                                "\nNumero de downloads: " + l.getNumeroDownloads() +
+                                "\n-----------------\n"
+                ));
+            }
+        } else{
+            System.out.println("Digite um idioma válido!");
         }
     }
 
@@ -123,7 +155,7 @@ public class Principal {
                         "\nTitulo: " + l.getTitulo() +
                         "\nAutor: " + l.getAutor().getNomeAutor() +
                         "\nIdioma: " + l.getLinguagem().getIdioma() +
-                        "\nNumero de descargas: " + l.getNumeroDownloads() +
+                        "\nNumero de downloads: " + l.getNumeroDownloads() +
                         "\n-----------------\n"
         ));
     }

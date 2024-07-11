@@ -1,6 +1,7 @@
 package br.com.alura.literalura.repository;
 
 import br.com.alura.literalura.model.Autor;
+import br.com.alura.literalura.model.Linguagem;
 import br.com.alura.literalura.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface IAutorRepository extends JpaRepository<Autor, Long> {
 
     @Query("SELECT a FROM Autor a WHERE a.anoFalecimentoAutor > :data")
     List<Autor> buscarAutoresVivos(Integer data);
+    @Query("SELECT l FROM Autor a JOIN a.livros l WHERE l.linguagem = :idioma ")
+    List<Livro> buscarLivrosPorIdioma(Linguagem linguagem);
 }
