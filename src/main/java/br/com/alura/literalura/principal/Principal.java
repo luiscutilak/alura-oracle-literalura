@@ -40,8 +40,8 @@ public class Principal {
                     6 - Listar estatisticas
                     7 - Listar Top 10 Livros
                     8 - Buscar por nome do Autor
-                    9 - Buscar por autores com outras consultas
-                    0 - Sair...
+                    9 - Buscar autores por Ano de Nascimento ou Falecimento
+                    0 - Sair
                     
                     ------------------------------------------------
                     
@@ -79,9 +79,15 @@ public class Principal {
                         case 8:
                             buscarAutorPorNome();
                             break;
-
+                        case 9:
+                            buscarAutoresPorAnoNascimentoEAnoFalecimento();
+                            break;
+                        case 0:
+                            System.out.println("Obrigado por utilizar a Biblioteca LiterALura!");
+                            System.out.println("Saindo....");
                         default:
                             System.out.println("Opção inválida\n");
+                            break;
                     }
             } catch (NumberFormatException e) {
                     System.out.println("Opção inválida: " + e.getMessage());
@@ -90,6 +96,74 @@ public class Principal {
 
             }
 
+        }
+    }
+
+    private void buscarAutoresPorAnoNascimentoEAnoFalecimento() {
+        var menu = """
+                Digite uma opção que deseja pesquisar sobre Autores:
+                
+                1 - Buscar autor por Ano de nascimento
+                2 - Buscar autor por Ano de falecimento
+                """;
+        System.out.println(menu);
+        try{
+            var opcao = Integer.valueOf(sc.nextLine());
+            switch (opcao){
+                case 1:
+                    buscarAutoresPorNascimento();
+                    break;
+                case 2:
+                    buscarAutoresPorFalecimento();
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Opção inválida: " + e.getMessage());
+        }
+    }
+
+    public void buscarAutoresPorFalecimento() {
+        System.out.println("Digite o ano de falecimento:");
+        try{
+            var falecimento = Integer.valueOf(sc.nextLine());
+            List<Autor> autores = repositorio.buscarAutoresPorFalecimento(falecimento);
+            if(autores.isEmpty()){
+                System.out.println("Não existem autores falecidos no ano de, " + falecimento +  " em nossa base de dados!");
+            } else {
+                System.out.println();
+                autores.forEach(a -> System.out.println(
+                        "Autor: " + a.getNomeAutor() +
+                                "\nAno de Nascimento: " + a.getAnoNascimentoAutor() +
+                                "\nAno de Falecimento: " + a.getAnoFalecimentoAutor() +
+                                "\nLivros: " + a.getLivros().stream().map(l -> l.getTitulo()).collect(Collectors.toList()) + "\n"
+                ));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Opção Inválida: " + e.getMessage());
+        }
+    }
+
+    public void buscarAutoresPorNascimento() {
+        System.out.println("Digite o ano de nascimento:");
+        try{
+            var nascimento = Integer.valueOf(sc.nextLine());
+            List<Autor> autores = repositorio.buscarAutoresPorNascimento(nascimento);
+            if(autores.isEmpty()){
+                System.out.println("Não existem autores nascidos em, " + nascimento + " em nossa base de dados!");
+            } else {
+                System.out.println();
+                autores.forEach(a -> System.out.println(
+                        "Autor: " + a.getNomeAutor() +
+                                "\nData de nascimento: " + a.getAnoNascimentoAutor() +
+                                "\nData de falecimento: " + a.getAnoFalecimentoAutor() +
+                                "\nLivros: " + a.getLivros().stream().map(l -> l.getTitulo()).collect(Collectors.toList()) + "\n"
+                ));
+            }
+        } catch (NumberFormatException e){
+            System.out.println("Ano inválido: " + e.getMessage());
         }
     }
 

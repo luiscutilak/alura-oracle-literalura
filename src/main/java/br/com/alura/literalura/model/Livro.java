@@ -15,7 +15,7 @@ public class Livro {
     private Autor autor;
     @Enumerated(EnumType.STRING)
     private Linguagem linguagem;
-    private Double numeroDownloads;
+    private Integer numeroDownloads;
 
     public Livro(){
     }
@@ -51,11 +51,11 @@ public class Livro {
     public void setLinguagem(Linguagem linguagem) {
         this.linguagem = linguagem;
     }
-    public Double getNumeroDownloads() {
+    public Integer getNumeroDownloads() {
         return numeroDownloads;
     }
 
-    public void setNumeroDownloads(Double numeroDownloads) {
+    public void setNumeroDownloads(Integer numeroDownloads) {
         this.numeroDownloads = numeroDownloads;
     }
 
