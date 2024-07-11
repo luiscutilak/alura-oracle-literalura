@@ -60,6 +60,15 @@ public class Principal {
                         case 1:
                             buscarLivroWeb();
                             break;
+                        case 2:
+                            buscarLivrosRegistrados();
+                            break;
+                        case 3:
+                            buscarAutoresRegistrados();
+                            break;
+                        case 4:
+                            buscarAutoresVivosPorData();
+                            break;
                         default:
                             System.out.println("Opção inválida\n");
                     }
@@ -73,6 +82,52 @@ public class Principal {
         }
     }
 
+    private void buscarAutoresVivosPorData() {
+        System.out.println("Digite o ano de nascimento do autor que deseja Pesquisar:");
+        try{
+            var data = Integer.valueOf(sc.nextLine());
+            List<Autor> autores = repositorio.buscarAutoresVivos(data);
+            if(!autores.isEmpty()){
+                System.out.println();
+                autores.forEach(a -> System.out.println(
+                        "Autor: " + a.getNomeAutor() +
+                                "\nData de nascimento: " + a.getAnoNascimentoAutor() +
+                                "\nData de falecimento: " + a.getAnoFalecimentoAutor() +
+                                "\nLivros: " + a.getLivros().stream()
+                                .map(l -> l.getTitulo()).collect(Collectors.toList()) + "\n"
+                ));
+            } else{
+                System.out.println("Não existe autores vivos com esta data em nosso banco de dados!");
+            }
+        } catch(NumberFormatException e){
+            System.out.println("Digite um ano válido! " + e.getMessage());
+        }
+    }
+
+    private void buscarAutoresRegistrados() {
+        List<Autor> autores = repositorio.findAll();
+        System.out.println();
+        autores.forEach(l-> System.out.println(
+                "Autor: " + l.getNomeAutor() +
+                        "\nAno de nascimento: " + l.getAnoNascimentoAutor() +
+                        "\nAno de falecimento: " + l.getAnoFalecimentoAutor() +
+                        "\nLivros: " + l.getLivros().stream()
+                        .map(t -> t.getTitulo()).collect(Collectors.toList()) + "\n"
+        ));
+    }
+
+    private void buscarLivrosRegistrados() {
+        List<Livro> livros = repositorio.buscarTodosLivrosRegistrados();
+        livros.forEach(l -> System.out.println(
+                "----- LIVRO -----" +
+                        "\nTitulo: " + l.getTitulo() +
+                        "\nAutor: " + l.getAutor().getNomeAutor() +
+                        "\nIdioma: " + l.getLinguagem().getIdioma() +
+                        "\nNumero de descargas: " + l.getNumeroDownloads() +
+                        "\n-----------------\n"
+        ));
+    }
+
     public void buscarLivroWeb(){
         System.out.println("Digite o nome do livro para busca:");
         var nomeLivro = sc.nextLine();
@@ -82,13 +137,13 @@ public class Principal {
                 .findFirst();
         if(livroBuscado.isPresent()){
             System.out.println(
-                            "---------------- LIVRO -----------" +
+                            "\n---------------- LIVRO -----------" +
                             "\nTitulo: " + livroBuscado.get().titulo() +
                             "\nAutor: " + livroBuscado.get().autores().stream()
                             .map(a -> a.nomeAutor()).limit(1).collect(Collectors.joining())+
                             "\nIdioma: " + livroBuscado.get().idioma().stream().collect(Collectors.joining()) +
-                            "\nNumero de descargas: " + livroBuscado.get().numeroDownloads() +
-                            "-----------------------------------"
+                            "\nNumero de downloads: " + livroBuscado.get().numeroDownloads() +
+                            "\n-----------------------------------\n"
             );
 
             try{
@@ -100,8 +155,8 @@ public class Principal {
                 Optional<Autor> autorBD = repositorio.buscarAutorPorNome(livroBuscado.get().autores().stream()
                         .map(a -> a.nomeAutor())
                         .collect(Collectors.joining()));
-                Optional<Livro> libroOptional = repositorio.buscarLivroPorNome(nomeLivro);
-                if (libroOptional.isPresent()) {
+                Optional<Livro> livroOptional = repositorio.buscarLivroPorNome(nomeLivro);
+                if (livroOptional.isPresent()) {
                     System.out.println("Livro salvo no banco de dados com Sucesso!");
                 } else {
                     Autor autor;
