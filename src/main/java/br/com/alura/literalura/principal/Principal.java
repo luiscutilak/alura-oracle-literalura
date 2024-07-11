@@ -5,6 +5,7 @@ import br.com.alura.literalura.repository.IAutorRepository;
 import br.com.alura.literalura.service.ConsumoApi;
 import br.com.alura.literalura.service.ConverteDados;
 
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -68,6 +69,10 @@ public class Principal {
                             break;
                         case 5:
                             buscarLivrosPorIdioma();
+                            break;
+                        case 6:
+                            listarEstatisticas();
+                            break;
                         default:
                             System.out.println("Opção inválida\n");
                     }
@@ -79,6 +84,21 @@ public class Principal {
             }
 
         }
+    }
+
+    private void listarEstatisticas() {
+        var json = csm.obterDados(ENDERECO);
+        var dados = cnv.obterDados(json, DadosInfo.class);
+        IntSummaryStatistics est = dados.livros().stream()
+                .filter(l -> l.numeroDownloads() > 0)
+                .collect(Collectors.summarizingInt(DadosLivro::numeroDownloads));
+        Integer media = (int) est.getAverage();
+        System.out.println("\n----- ESTATISTICAS -----");
+        System.out.println("Media de downloads: " + media);
+        System.out.println("Maior número de downloads: " + est.getMax());
+        System.out.println("Menor número de downloads: " + est.getMin());
+        System.out.println("Registros para calculo das estatisticas: " + est.getCount());
+        System.out.println("-----------------\n");
     }
 
     private void buscarLivrosPorIdioma() {
