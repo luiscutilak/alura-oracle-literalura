@@ -22,4 +22,7 @@ public interface IAutorRepository extends JpaRepository<Autor, Long> {
     List<Autor> buscarAutoresVivos(Integer data);
     @Query("SELECT l FROM Autor a JOIN a.livros l WHERE l.linguagem = :idioma ")
     List<Livro> buscarLivrosPorIdioma(Linguagem linguagem);
+
+    @Query("SELECT l FROM Autor a JOIN a.livros l ORDER BY l.numeroDownloads DESC LIMIT 10")
+    List<Livro> listarTop10Livros();
 }

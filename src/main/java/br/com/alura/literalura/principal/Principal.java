@@ -73,6 +73,13 @@ public class Principal {
                         case 6:
                             listarEstatisticas();
                             break;
+                        case 7:
+                            listarTop10Livros();
+                            break;
+                        case 8:
+                            buscarAutorPorNome();
+                            break;
+
                         default:
                             System.out.println("Opção inválida\n");
                     }
@@ -84,6 +91,36 @@ public class Principal {
             }
 
         }
+    }
+
+    private void buscarAutorPorNome() {
+        System.out.println("Digite o nome do Autor que deseja pesquisar:");
+        var nome = sc.nextLine();
+        Optional<Autor> autor = repositorio.buscarAutorPorNome(nome);
+        if(autor.isPresent()){
+            System.out.println(
+                    "\nAutor: " + autor.get().getNomeAutor() +
+                            "\nData de nascimento: " + autor.get().getAnoNascimentoAutor() +
+                            "\nData de falecimento: " + autor.get().getAnoFalecimentoAutor() +
+                            "\nLivros: " + autor.get().getLivros().stream()
+                            .map(l -> l.getTitulo()).collect(Collectors.toList()) + "\n"
+            );
+        } else {
+            System.out.println("Nome do autor não existe em nossa base de dados.");
+        }
+    }
+
+    private void listarTop10Livros() {
+        List<Livro> livros = repositorio.listarTop10Livros();
+        System.out.println();
+        livros.forEach(l -> System.out.println(
+                "----- LIVRO -----" +
+                        "\nTitulo: " + l.getTitulo() +
+                        "\nAutor: " + l.getAutor().getNomeAutor() +
+                        "\nIdioma: " + l.getLinguagem().getIdioma() +
+                        "\nNúmero de downloads: " + l.getNumeroDownloads() +
+                        "\n-----------------\n"
+        ));
     }
 
     private void listarEstatisticas() {
