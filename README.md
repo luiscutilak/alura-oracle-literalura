@@ -42,7 +42,7 @@ Salvando os livros buscados no banco de dados, e realizando diversas pesquisas, 
 
  <h1> 🧙‍♂️ Autor </h1>
 
-| [<img loading="lazy" src="https://github.com/user-attachments/assets/7564c4b7-fc99-4a88-979d-6efc5c221601" width=115><br><sub>Luís Fernando Cutilak</sub>](www.linkedin.com/in/luis-fernando-cutilak-developer)|
+| [<img loading="lazy" src="https://github.com/user-attachments/assets/7564c4b7-fc99-4a88-979d-6efc5c221601" width=115><br><sub>Luís Fernando Cutilak</sub>](https://www.linkedin.com/in/luis-fernando-cutilak-developer)|
 | :-------------: |
-| [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>](www.linkedin.com/in/luis-fernando-cutilak-developer)|
+| [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://www.linkedin.com/in/luis-fernando-cutilak-developer)|
 |  |
