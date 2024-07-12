@@ -31,7 +31,6 @@ public class Principal {
             var menu = """
                     ------------------------------------------------
                     Digite a opção desejada:
-                    
                     1 - Buscar livro por título
                     2 - Listar livros registrados
                     3 - Listar autores registrados
@@ -42,9 +41,7 @@ public class Principal {
                     8 - Buscar por nome do Autor
                     9 - Buscar autores por Ano de Nascimento ou Falecimento
                     0 - Sair
-                    
                     ------------------------------------------------
-                    
                     """;
 
             while (opcao != 0) {
